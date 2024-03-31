@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">mob_dev_portfolio</string>
+    <string name="Click_to_register">Regiter</string>
+    <string name="Click_to_Login">Click to login\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

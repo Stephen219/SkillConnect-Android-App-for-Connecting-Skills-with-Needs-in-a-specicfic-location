@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12190852309",
+    "project_id": "mobilep-f747c",
+    "storage_bucket": "mobilep-f747c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12190852309:android:4a6e6a3dfea9fac842ae5c",
+        "android_client_info": {
+          "package_name": "com.example.mob_dev_portfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKFt4PTB9cfhyCJYjSAourAZ28HgDfBqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
