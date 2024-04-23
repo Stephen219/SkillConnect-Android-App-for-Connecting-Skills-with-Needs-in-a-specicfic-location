@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Mob_dev_portfolio"
         tools:targetApi="31">
         <activity
+            android:name=".UserDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".get_Info"
             android:exported="false" />
         <activity

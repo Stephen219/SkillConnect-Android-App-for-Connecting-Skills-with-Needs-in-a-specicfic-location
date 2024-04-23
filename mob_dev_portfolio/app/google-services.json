@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "12190852309",
-    "project_id": "mobilep-f747c",
-    "storage_bucket": "mobilep-f747c.appspot.com"
+    "project_number": "714097499634",
+    "project_id": "mob-dev-portfolio-cee85",
+    "storage_bucket": "mob-dev-portfolio-cee85.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:12190852309:android:4a6e6a3dfea9fac842ae5c",
+        "mobilesdk_app_id": "1:714097499634:android:b27b536bbb834687e45f6b",
         "android_client_info": {
           "package_name": "com.example.mob_dev_portfolio"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCKFt4PTB9cfhyCJYjSAourAZ28HgDfBqU"
+          "current_key": "AIzaSyBMuH03i7RftaKu-yFfy-f2j8InRIxMjno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714097499634:android:173c28d179c33182e45f6b",
+        "android_client_info": {
+          "package_name": "uk.ac.cf.cm6226.week1to3app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMuH03i7RftaKu-yFfy-f2j8InRIxMjno"
         }
       ],
       "services": {

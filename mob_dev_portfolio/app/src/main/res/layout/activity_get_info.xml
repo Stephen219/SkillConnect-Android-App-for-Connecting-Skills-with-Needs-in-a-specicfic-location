@@ -14,10 +14,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Description" />
+            android:text="Full Name" />
 
         <EditText
-            android:id="@+id/edit_description"
+            android:id="@+id/edit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_description"
@@ -29,7 +29,7 @@
             android:id="@+id/text_website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edit_description"
+            android:layout_below="@id/edit_name"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Website" />
@@ -114,39 +114,17 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />
 
-        <!-- Photo -->
-        <TextView
-            android:id="@+id/text_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edit_email"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Photo" />
 
-        <Button
-            android:id="@+id/button_upload_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_photo"
-            android:layout_marginStart="16dp"
-            android:text="Upload Photo" />
 
-        <!-- Display Uploaded Photo -->
-        <ImageView
-            android:id="@+id/image_uploaded_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_upload_photo"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp" />
+
+
 
         <!-- Save Button -->
         <Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image_uploaded_photo"
+            android:layout_below="@id/edit_email"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Save" />

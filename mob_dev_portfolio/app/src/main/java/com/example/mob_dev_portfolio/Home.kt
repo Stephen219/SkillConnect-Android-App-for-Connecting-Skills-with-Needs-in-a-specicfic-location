@@ -1,59 +1,93 @@
 package com.example.mob_dev_portfolio
 
+import User
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 
 /**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
+ * in this class fragment it is the home fragment and it is the launcher fragment
+ *  the users's' card containing a picture name , skill and location will be displayed here
+ *  a click on the card will take the user to the user's profile for the users information
+ *  the user's information will be displayed in the profile fragment
+ *  the user's profile will contain the user's name, email, phone, website, skill and location, and an about
  */
+
+
 class Home : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var database: DatabaseReference
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var userAdapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        database = FirebaseDatabase.getInstance().reference.child("users")
+
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        fetchUserData()
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Home.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Home().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    /**
+     * fetchUserData() function is used to fetch user data from the Firebase Realtime Database
+     * and log the data to the console
+     *
+     */
+    private fun getCurrentFirebaseUser(): FirebaseUser? {
+        val auth = FirebaseAuth.getInstance()
+        return auth.currentUser
+    }
+    private fun getCurrentUserId(): String? {
+        val currentUser = getCurrentFirebaseUser()
+        return currentUser?.uid
+    }
+    val authenticatedUserId = getCurrentUserId()
+    val currentUserCity : String = ""
+
+    private fun fetchUserData() {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    var userData = snapshot.children.mapNotNull { it.getValue(User::class.java) }
+                    val sameCityUsers = userData.filter { it.location == currentUserCity }
+                    val otherCityUsers = userData.filter { it.location != currentUserCity }
+                    var sortedData = sameCityUsers + otherCityUsers
+                    userData = sortedData
+                    val filteredData = userData.filter { it.id != authenticatedUserId }
+
+                    userAdapter = UserAdapter(filteredData) { user ->
+                        val intent = Intent(requireContext(), UserDetailsActivity::class.java)
+                        intent.putExtra("user", user.toString())
+                        startActivity(intent)
+                    }
+                    recyclerView.adapter = userAdapter
+
                 }
             }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("HomeFragment", "Firebase error: ${error.message}")
+            }
+        })
     }
 }
