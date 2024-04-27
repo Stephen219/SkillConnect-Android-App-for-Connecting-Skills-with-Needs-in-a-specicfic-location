@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="search"
+        android:id="@+id/search"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/search_icon"/>
+    <!-- action button for refresh -->
+    <item android:title="refresh"
+        android:id="@+id/refresh"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/refresh_icon"/>
+
+    <item android:title="settings"
+        android:id="@+id/settings"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/settings"/>
+
+    <item android:title="favourite"
+        android:id="@+id/favourite"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <!-- action button for copy -->
+    <item android:title="copy"
+        android:id="@+id/copy"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+
+
+
+
+
+
+
+</menu>

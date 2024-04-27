@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="account"
+        android:id="@+id/account"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_person_24"/>
+    <!-- action button for refresh -->
+    <item android:title="settings"
+        android:id="@+id/setting_real"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_settings_24"/>
+
+    <item android:title="logout"
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/baseline_logout_24"/>
+
+    <item android:title="favourite"
+        android:id="@+id/favourite"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+
+
+
+
+
+
+
+
+
+</menu>
