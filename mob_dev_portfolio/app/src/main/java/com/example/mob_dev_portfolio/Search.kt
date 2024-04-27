@@ -1,59 +1,129 @@
-package com.example.mob_dev_portfolio
 
+package com.example.mob_dev_portfolio
+import User
+import addRecentSearch
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_dev_portfolio.Data.RecentSearchAdapter
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import getRecentSearches
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Search.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Search : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var database: DatabaseReference
+    private lateinit var searchScreen: RelativeLayout
+    private lateinit var recyclerSearchResults: RecyclerView
+    private lateinit var noResultsFound: LinearLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+        database = FirebaseDatabase.getInstance().reference.child("users")
+
+        val editTextCity = view.findViewById<EditText>(R.id.editTextCity)
+        val editTextProfession = view.findViewById<EditText>(R.id.editTextProfession)
+        val buttonSearch = view.findViewById<Button>(R.id.buttonSearch)
+        val recyclerRecentSearches = view.findViewById<RecyclerView>(R.id.recyclerRecentSearches)
+        recyclerSearchResults = view.findViewById<RecyclerView>(R.id.recyclerSearchResults)
+        searchScreen = view.findViewById(R.id.relativeLayoutSearch)
+        noResultsFound = view.findViewById(R.id.noResultsFound)
+
+        recyclerRecentSearches.layoutManager = LinearLayoutManager(requireContext())
+        recyclerSearchResults.layoutManager = LinearLayoutManager(requireContext())
+
+        buttonSearch.setOnClickListener {
+            val city = editTextCity.text.toString().trim()
+            val profession = editTextProfession.text.toString().trim()
+
+            if (city.isNotEmpty() && profession.isNotEmpty()) {
+                val searchTerm = "$city, $profession"
+
+                // TODO :add validation for city and the skill.
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    addRecentSearch(requireContext(), searchTerm) // Add to recent searches
+                }
+
+                performSearch(city, profession)
+            }
+        }
+        getRecentSearches(requireContext())
+            .onEach { recentSearches ->
+                val recentSearchList = recentSearches.toList().reversed()
+                Log.d("Search", "Recent searches: $recentSearchList")
+                Log.d("Search", "Recent searches size: ${recentSearchList.size}")
+                val adapter = RecentSearchAdapter(recentSearchList) { search ->
+                    val parts = search.split(", ")
+                    editTextCity.setText(parts[0])
+                    editTextProfession.setText(parts[1])
+                }
+                recyclerRecentSearches.adapter = adapter
+            }
+            .launchIn(CoroutineScope(Dispatchers.Main))
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Search.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Search().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    private fun performSearch(city: String, profession: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val users = mutableListOf<User>()
+            database.get()
+                .addOnSuccessListener { snapshot ->
+                    for (child in snapshot.children) {
+                        val user = child.getValue(User::class.java)
+                        if (user != null && user.location == city && user.skill == profession) {
+                            users.add(user)
+                        }
+                    }
+
+                    requireActivity().runOnUiThread {
+                        searchScreen.visibility = View.GONE
+                        if (users.isEmpty()) {
+                            noResultsFound.visibility = View.VISIBLE
+                            recyclerSearchResults.visibility = View.GONE
+                        } else {
+                            noResultsFound.visibility = View.GONE
+                            recyclerSearchResults.visibility = View.VISIBLE
+                            val adapter = UserAdapter(users) { user ->
+                            val intent = Intent(requireContext(), UserDetailsActivity::class.java)
+                            intent.putExtra("user", user.toString())
+                            startActivity(intent)
+                        }
+                        recyclerSearchResults.adapter = adapter
+                        }
+                    }
                 }
-            }
+                .addOnFailureListener { exception ->
+                    Log.e("SearchFragment", "Error fetching rhe data: ${exception.message}")
+                }
+        }
+
     }
+
+
 }
+
+
+

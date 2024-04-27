@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_dev_portfolio.Data.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -32,6 +34,7 @@ class Home : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var recyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
+    private lateinit var mUserViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +47,22 @@ class Home : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+
+
+
+
+
+
+
         fetchUserData()
+
 
         return view
     }
@@ -70,16 +84,6 @@ class Home : Fragment() {
     val currentUserCity : String = ""
 
 
-//    fun insertUser(context: Context, user: User) {
-//        val database = UserDatabase.getDatabase(context)
-//        val userDao = database.userDao()
-//
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            userDao.insertUser(user)
-//        }
-//    }
-
     private fun fetchUserData() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -90,6 +94,8 @@ class Home : Fragment() {
                     var sortedData = sameCityUsers + otherCityUsers
                     userData = sortedData
                     val filteredData = userData.filter { it.id != authenticatedUserId }
+
+
 
                     userAdapter = UserAdapter(filteredData) { user ->
                         val intent = Intent(requireContext(), UserDetailsActivity::class.java)

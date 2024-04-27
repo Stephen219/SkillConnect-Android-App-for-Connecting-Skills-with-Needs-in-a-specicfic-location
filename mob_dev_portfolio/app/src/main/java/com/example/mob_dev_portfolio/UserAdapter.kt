@@ -11,16 +11,20 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_dev_portfolio.Data.UserViewModel
 import com.example.mob_dev_portfolio.databinding.ActivityUserDetailsBinding
 
 
 class UserAdapter(
 
+
     private val userList: List<User>,
     param: (Any) -> Unit, ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>()
 {
     var onItemClick: ((User) -> Unit?)? = null
+    private lateinit var UserViewModel: UserViewModel
 
 
 
@@ -81,19 +85,35 @@ class UserAdapter(
 
         // TODO 2: HANDLE THE CLICK EVENT OF THE FAV BUTTON
         holder.favButton.setOnClickListener {
-            Toast.makeText(
-                holder.itemView.context, "User ${user.name} added to favourites",
-                Toast.LENGTH_SHORT
-            ).show()
-            val context = holder.itemView.context
-            val sharedPrefs = context.getSharedPreferences("FavouritesPrefs", Context.MODE_PRIVATE)
-            val favSet = sharedPrefs.getStringSet("favorites", mutableSetOf()) ?: mutableSetOf()
-            favSet.add(user.id)
-            with(sharedPrefs.edit()) {
-                putStringSet("favorites", favSet)
-                apply()
-            }
-            Toast.makeText(context, "User ${user.name} added to favourites", Toast.LENGTH_SHORT).show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
