@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser
 
 
 class MainActivity : AppCompatActivity() {
+    // Todo : code documentation for all the classes
 
     private lateinit var useemail:TextView
     private lateinit var button: Button

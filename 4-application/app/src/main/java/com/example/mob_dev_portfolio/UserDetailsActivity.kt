@@ -30,6 +30,7 @@ class UserDetailsActivity : AppCompatActivity() {
         val skillTextView: TextView = findViewById(R.id.skill_text)
         val locationTextView: TextView = findViewById(R.id.location_text)
 //        val aboutTextView: TextView = findViewById(R.id.about_text)
+        // TODO: add the about text view
 
         val user2 = intent.extras?.get("user") as? User
         if (user2 != null) {
