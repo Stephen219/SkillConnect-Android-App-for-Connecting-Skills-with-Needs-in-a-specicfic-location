@@ -1,67 +1,81 @@
-package com.example.mob_dev_portfolio.Data
-
-import Skill
-import User
-import UserSkillCrossRef
-import android.content.Context
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Room
-import androidx.room.RoomDatabase
-
-
-@Dao
-interface UserDao {
-    @Insert
-    suspend fun insert(user: User)
-
-    @Query("SELECT * FROM users WHERE id = :userId")
-    suspend fun getUser(userId: Long): User?
-}
-
-
-@Dao
-interface SkillDao {
-    @Insert
-    suspend fun insert(skill: Skill)
-
-    @Query("SELECT * FROM skills WHERE id = :skillId")
-    suspend fun getSkill(skillId: Long): Skill?
-}
-
-
-@Dao
-interface UserSkillCrossRefDao {
-    @Insert
-    fun insert(userSkillCrossRef: UserSkillCrossRef)
-
-    @Query("SELECT * FROM user_skill_cross_ref WHERE userId = :userId")
-    suspend fun getSkillsForUser(userId: Long): List<UserSkillCrossRef>
-}
-
-
-@Database(entities = [User::class, Skill::class, UserSkillCrossRef::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
-    abstract fun skillDao(): SkillDao
-    abstract fun userSkillCrossRefDao(): UserSkillCrossRefDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
-}
+//import androidx.room.Database
+//import androidx.room.RoomDatabase
+//import androidx.room.Room
+//import android.content.Context
+//import android.widget.Toast
+//import androidx.room.Dao
+//import androidx.room.Insert
+//import androidx.room.Query
+//import androidx.room.Update
+//import kotlinx.coroutines.CoroutineScope
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.launch
+//import kotlinx.coroutines.runBlocking
+//
+//@Database(entities = [User::class], version = 1)
+//abstract class UserDatabase : RoomDatabase() {
+//    abstract fun userDao(): UserDao
+//
+//    companion object {
+//        @Volatile
+//        private var INSTANCE: UserDatabase? = null
+//
+//        fun getDatabase(context: Context): UserDatabase {
+//            return INSTANCE ?: synchronized(this) {
+//                val instance = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    UserDatabase::class.java,
+//                    "user_database"
+//                ).build()
+//                INSTANCE = instance
+//                instance
+//            }
+//        }
+//    }
+//}
+//
+//
+//
+//
+//
+//@Dao
+//interface UserDao {
+//    @Insert
+//    suspend fun insertUser(user: User)
+//
+//    @Update
+//    suspend fun updateUser(user: User)
+//
+//    @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
+//    suspend fun getUserById(userId: String): User?
+//
+//
+//
+//
+//
+//    fun insertUser(context: Context, user: User) {
+//        val database = UserDatabase.getDatabase(context)
+//        val userDao = database.userDao()
+//
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//            userDao.insertUser(user)
+//        }
+//    }
+//
+//
+//    fun getUserById(context: Context, userId: String): User? {
+//        val database = UserDatabase.getDatabase(context)
+//        val userDao = database.userDao()
+//
+//        return runBlocking {
+//            val user = userDao.getUserById(userId)
+//
+//            if (user == null) {
+//                Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            user
+//        }
+//    }
+//}

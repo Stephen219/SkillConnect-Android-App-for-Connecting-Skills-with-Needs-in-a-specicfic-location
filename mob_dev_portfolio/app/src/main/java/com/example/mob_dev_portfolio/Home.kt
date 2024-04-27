@@ -1,6 +1,7 @@
 package com.example.mob_dev_portfolio
 
 import User
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * in this class fragment it is the home fragment and it is the launcher fragment
@@ -64,6 +68,17 @@ class Home : Fragment() {
     }
     val authenticatedUserId = getCurrentUserId()
     val currentUserCity : String = ""
+
+
+//    fun insertUser(context: Context, user: User) {
+//        val database = UserDatabase.getDatabase(context)
+//        val userDao = database.userDao()
+//
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//            userDao.insertUser(user)
+//        }
+//    }
 
     private fun fetchUserData() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
