@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+    <item
+        android:id="@+id/nav_account"
+        android:title="Import"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Gallery" />
+    <item
+        android:id="@+id/nav_slideshow"
+        android:title="Slideshow" />
+    <item
+        android:id="@+id/nav_tool"
+        android:title="Tools" />
+    <item
+        android:id="@+id/nav_share"
+        android:title="Share" />
+    <item
+        android:id="@+id/nav_send"
+        android:title="Send" />
+
+</menu>
