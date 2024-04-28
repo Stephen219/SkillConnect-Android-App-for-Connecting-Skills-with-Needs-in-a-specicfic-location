@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mob_dev_portfolio.Data.UserViewModel
@@ -18,6 +19,7 @@ import com.example.mob_dev_portfolio.accountActivity.myAccountDetailsActitvity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.example.mob_dev_portfolio.checkNetwork
 
 
 
@@ -76,17 +78,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         setContentView(R.layout.activity_main)
-
         val toolbar = findViewById<Toolbar>(R.id.top_action_bar)
         setSupportActionBar(toolbar)
-
-
-
-
-
-
         auth = FirebaseAuth.getInstance()
         useemail = findViewById(R.id.name)
 //        button = findViewById(R.id.logoutButton)
@@ -104,6 +98,14 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
+        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
+        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
+
+        if (!checkNetwork.isNetworkAvailable(this)) {
+            Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_SHORT).show()
+
+        }
 
 //        button.setOnClickListener {
 //            auth.signOut()
@@ -116,6 +118,10 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> {
                     ReplaceFragment(Home())
+                    if (!checkNetwork.isNetworkAvailable(this)) {
+                        Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_LONG).show()
+
+                    }
                     true
                 }
                 R.id.search -> {

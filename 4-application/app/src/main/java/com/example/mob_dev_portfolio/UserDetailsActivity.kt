@@ -63,6 +63,9 @@ class UserDetailsActivity : AppCompatActivity() {
         emailButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:${emailTextView.text}")
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Request for more information")
+            intent.putExtra(Intent.EXTRA_TEXT, "Hello ${nameTextView.text},")
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailTextView.text.toString()))
             startActivity(intent)
         }
 

@@ -3,7 +3,11 @@ package com.example.mob_dev_portfolio
 import User
 import addRecentSearch
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +18,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_dev_portfolio.Data.RecentSearchAdapter
@@ -51,23 +56,43 @@ class Search : Fragment() {
 
         recyclerRecentSearches.layoutManager = LinearLayoutManager(requireContext())
         recyclerSearchResults.layoutManager = LinearLayoutManager(requireContext())
-
         buttonSearch.setOnClickListener {
             val city = editTextCity.text.toString().trim()
             val profession = editTextProfession.text.toString().trim()
 
             if (city.isNotEmpty() && profession.isNotEmpty()) {
+
+
+                if (!checkNetwork.isNetworkAvailable(requireContext())) {
+                    Toast.makeText( requireContext(),
+                        "No internet covffvfvffvfvnnection. Please check your network and try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+
+                }
+
                 val searchTerm = "$city, $profession"
 
-                // TODO :add validation for city and the skill.
-
                 CoroutineScope(Dispatchers.IO).launch {
-                    addRecentSearch(requireContext(), searchTerm) // Add to recent searches
+                    addRecentSearch(requireContext(), searchTerm)
                 }
 
                 performSearch(city, profession)
+            } else {
+                if (city.isEmpty()) {
+                    editTextCity.error = "City is required"
+                    editTextCity.requestFocus()
+                    editTextCity.isFocusableInTouchMode = true
+                    editTextCity.isFocusable = true
+
+                }
+                if (profession.isEmpty()) {
+                    editTextProfession.error = "skill is required"
+                }
             }
         }
+
         getRecentSearches(requireContext())
             .onEach { recentSearches ->
                 val recentSearchList = recentSearches.toList().reversed()
@@ -121,6 +146,7 @@ class Search : Fragment() {
         }
 
     }
+
 
 
 }
