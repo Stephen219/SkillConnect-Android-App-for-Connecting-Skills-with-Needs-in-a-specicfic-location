@@ -16,11 +16,11 @@ data class User(
     val website: String,
     val phone: String,
     val skill: String,
-    val location: String?): Parcelable {
-    constructor() : this("", "","", "", "", "", "")
+    val location: String?
+) : Parcelable {
+    constructor() : this("", "", "", "", "", "", "")
 
 }
-
 
 
 @Entity(tableName = "skills")

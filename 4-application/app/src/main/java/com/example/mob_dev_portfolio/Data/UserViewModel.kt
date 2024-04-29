@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserViewModel (application: Application) : AndroidViewModel(application){
+class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: UserRepo
     val readAllData: List<User>
 
@@ -17,16 +17,17 @@ class UserViewModel (application: Application) : AndroidViewModel(application){
         readAllData = repository.readAllData
     }
 
-    fun addUser(user: User){
+    fun addUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
-        repository.addUser(user)}
+            repository.addUser(user)
+        }
     }
 
-    fun deleteUser(user: User){
+    fun deleteUser(user: User) {
         repository.deleteUser(user)
     }
 
-    fun updateUser(user: User){
+    fun updateUser(user: User) {
         repository.updateUser(user)
     }
 }
