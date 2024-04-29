@@ -20,8 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.example.mob_dev_portfolio.checkNetwork
-
-
+import com.example.mob_dev_portfolio.checkNetwork.recheckNetworkAfterDelay
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var user: FirebaseUser
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var mUserViewModel: UserViewModel
+    private val counterToRecheckNetwork = 5
 
 
 
@@ -104,8 +104,11 @@ class MainActivity : AppCompatActivity() {
 
         if (!checkNetwork.isNetworkAvailable(this)) {
             Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_SHORT).show()
+            recheckNetworkAfterDelay(this, 6000)
 
         }
+
+
 
 //        button.setOnClickListener {
 //            auth.signOut()
@@ -120,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                     ReplaceFragment(Home())
                     if (!checkNetwork.isNetworkAvailable(this)) {
                         Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_LONG).show()
+
 
                     }
                     true

@@ -8,10 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.mob_dev_portfolio.Data.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -35,6 +37,8 @@ class Home : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
     private lateinit var mUserViewModel: UserViewModel
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private val counterToRecheckNetwork = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +57,19 @@ class Home : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
 
-
-
-
-
-
-
+            if (checkNetwork.isNetworkAvailable(requireContext())) {
+                fetchUserData()
+                Toast.makeText(context, "Refreshinng", Toast.LENGTH_SHORT).show()
+                swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(context, "Refreshed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
 
         fetchUserData()
 

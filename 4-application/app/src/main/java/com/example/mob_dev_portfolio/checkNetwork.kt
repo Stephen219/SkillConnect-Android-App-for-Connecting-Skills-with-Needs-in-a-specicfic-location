@@ -6,6 +6,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 
 object checkNetwork{
     /**
@@ -38,6 +41,19 @@ object checkNetwork{
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo?.isConnected ?: false
         }
+    }
+
+    fun recheckNetworkAfterDelay(context: Context, delayMillis: Long = 4000) {
+        val handler = Handler(Looper.getMainLooper())
+        val runnable = Runnable {
+            if (!checkNetwork.isNetworkAvailable(context)) {
+                Toast.makeText(context, "Still no internet connection. Please check your network.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Internet connection restored.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        handler.postDelayed(runnable, delayMillis)
     }
 
 }

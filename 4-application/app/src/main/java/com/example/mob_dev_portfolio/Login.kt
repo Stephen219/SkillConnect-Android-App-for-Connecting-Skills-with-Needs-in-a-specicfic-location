@@ -53,6 +53,13 @@ class Login : AppCompatActivity() {
             finish()
         }
         button.setOnClickListener {
+            editTextTextPassword.error = "Please enter password"
+            editTextTextEmail.error = "Please enter email"
+            if (!checkNetwork.isNetworkAvailable(this@Login)) {
+                Toast.makeText(this@Login, "N" + "o Internet Connection", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                progessBar.visibility = ProgressBar.INVISIBLE
+            }
             progessBar.visibility = ProgressBar.VISIBLE
             var email: String
             var password: String
@@ -62,6 +69,9 @@ class Login : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this@Login, "Please enter email and password", Toast.LENGTH_SHORT)
                     .show()
+                progessBar.visibility = ProgressBar.INVISIBLE
+                editTextTextPassword.error = "Please enter password"
+                editTextTextEmail.error = "Please enter email"
                 return@setOnClickListener
             }
             fun updateUI(user: FirebaseUser?) {

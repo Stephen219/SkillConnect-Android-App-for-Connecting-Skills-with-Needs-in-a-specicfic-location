@@ -61,6 +61,11 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:padding="16dp"
+        android:textColor="#fff"
+
+
+
+
         tools:listitem="@layout/user_card_layout"
         android:visibility="gone" />
 

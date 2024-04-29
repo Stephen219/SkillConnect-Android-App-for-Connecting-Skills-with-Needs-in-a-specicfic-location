@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Account">
+
+
+    <LinearLayout
+        android:id="@+id/noResultsFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/noResultsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/under_development"
+            android:textSize="18sp"
+            android:textColor="#FF0000" />
+
+        <ImageView
+            android:id="@+id/noResultsImage"
+            android:layout_width="350dp"
+            android:layout_height="507dp"
+            android:src="@drawable/undraw_a_moment_to_relax_re_v5gv" />
+
+    </LinearLayout>
+
+</FrameLayout>

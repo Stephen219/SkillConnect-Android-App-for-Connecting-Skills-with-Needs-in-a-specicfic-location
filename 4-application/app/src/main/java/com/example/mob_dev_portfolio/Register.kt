@@ -47,6 +47,13 @@ class Register : AppCompatActivity() {
         }
 
         button.setOnClickListener {
+
+            if (!checkNetwork.isNetworkAvailable(this@Register)) {
+                Toast.makeText(this@Register, "No Internet Connection", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                progessBar.visibility = ProgressBar.INVISIBLE
+
+            }
             progessBar.visibility = ProgressBar.VISIBLE
             var email: String
             var password: String
@@ -54,8 +61,17 @@ class Register : AppCompatActivity() {
             password = editTextTextPassword.text.toString()
 
             if(email.isEmpty() || password.isEmpty()){
+                editTextTextPassword.error = "Please enter password"
+                editTextTextEmail.error = "Please enter email"
                 Toast.makeText(this@Register, "Please enter email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            }
+            // password regex   a  digit and a letters
+            val passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$".toRegex()
+            if (!passwordRegex.matches(password)) {
+                editTextTextPassword.error = "Password must contain at least 1 letter and 1 digit"
+                return@setOnClickListener
+                progessBar.visibility = ProgressBar.INVISIBLE
             }
 
             // from https://firebase.google.com/docs/auth/android/password-auth#kotlin+ktx_5
@@ -75,8 +91,6 @@ class Register : AppCompatActivity() {
                         progessBar.visibility = ProgressBar.GONE
 //                        updateUI(user)
                     } else {
-                        // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(this@Register,
                             "Authentication failed.",
                             Toast.LENGTH_SHORT,
