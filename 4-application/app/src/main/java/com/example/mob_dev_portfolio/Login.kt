@@ -53,8 +53,6 @@ class Login : AppCompatActivity() {
             finish()
         }
         button.setOnClickListener {
-            editTextTextPassword.error = "Please enter password"
-            editTextTextEmail.error = "Please enter email"
             if (!checkNetwork.isNetworkAvailable(this@Login)) {
                 Toast.makeText(this@Login, "N" + "o Internet Connection", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
