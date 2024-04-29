@@ -26,14 +26,13 @@ import com.example.mob_dev_portfolio.checkNetwork.recheckNetworkAfterDelay
 class MainActivity : AppCompatActivity() {
     // Todo : code documentation for all the classes
 
-    private lateinit var useemail:TextView
+    private lateinit var useemail: TextView
     private lateinit var button: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var mUserViewModel: UserViewModel
     private val counterToRecheckNetwork = 5
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -51,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
                 return true
             }
+
             R.id.setting_real -> {
 
                 Intent(this@MainActivity, appSettingsActivity::class.java).also {
@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
                 return true
             }
+
             R.id.logout -> {
                 auth.signOut()
                 Intent(this@MainActivity, Login::class.java).also {
@@ -67,11 +68,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item) // Default handling
         }
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
 
         if (user != null) {
             Log.d("MainActivity", "User is not null and is ${user.email}")
-//            useemail.text = user.email
         }
         if (user == null) {
             Intent(this@MainActivity, Login::class.java).also {
@@ -98,16 +97,19 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
-        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
-        Log.d ("the network status", checkNetwork.isNetworkAvailable(this).toString())
+        Log.d("the network status", checkNetwork.isNetworkAvailable(this).toString())
+        Log.d("the network status", checkNetwork.isNetworkAvailable(this).toString())
+        Log.d("the network status", checkNetwork.isNetworkAvailable(this).toString())
 
         if (!checkNetwork.isNetworkAvailable(this)) {
-            Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "No internet connection. Please check your network.",
+                Toast.LENGTH_SHORT
+            ).show()
             recheckNetworkAfterDelay(this, 6000)
 
         }
-
 
 
 //        button.setOnClickListener {
@@ -118,35 +120,43 @@ class MainActivity : AppCompatActivity() {
 //            finish()
 //        }
         bottomNavView.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.home -> {
                     ReplaceFragment(Home())
                     if (!checkNetwork.isNetworkAvailable(this)) {
-                        Toast.makeText(this, "No internet connection. Please check your network.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            "No internet connection. Please check your network.",
+                            Toast.LENGTH_LONG
+                        ).show()
 
 
                     }
                     true
                 }
+
                 R.id.search -> {
                     ReplaceFragment(Search())
-                     true
+                    true
                 }
+
                 R.id.favourite -> {
                     ReplaceFragment(Favourites())
-                     true
+                    true
                 }
+
                 R.id.account -> {
                     ReplaceFragment(Account())
                     true
                 }
+
                 else -> false
             }
         }
         ReplaceFragment(Home())
     }
 
-    private fun ReplaceFragment(fragment: Fragment){
+    private fun ReplaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()

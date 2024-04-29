@@ -29,8 +29,6 @@ class Register : AppCompatActivity() {
             }
         }
     }
-    // ...
-//
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -52,7 +50,6 @@ class Register : AppCompatActivity() {
                 Toast.makeText(this@Register, "No Internet Connection", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
                 progessBar.visibility = ProgressBar.INVISIBLE
-
             }
             progessBar.visibility = ProgressBar.VISIBLE
             var email: String
@@ -60,10 +57,11 @@ class Register : AppCompatActivity() {
             email = editTextTextEmail.text.toString()
             password = editTextTextPassword.text.toString()
 
-            if(email.isEmpty() || password.isEmpty()){
+            if (email.isEmpty() || password.isEmpty()) {
                 editTextTextPassword.error = "Please enter password"
                 editTextTextEmail.error = "Please enter email"
-                Toast.makeText(this@Register, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Register, "Please enter email and password", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
             // password regex   a  digit and a letters
@@ -81,7 +79,11 @@ class Register : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         //Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
-                        Toast.makeText(this@Register, "Authentication successful.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@Register,
+                            "Authentication successful.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         // open login activity
                         Intent(this@Register, get_Info::class.java).also {
                             startActivity(it)
@@ -91,7 +93,8 @@ class Register : AppCompatActivity() {
                         progessBar.visibility = ProgressBar.GONE
 //                        updateUI(user)
                     } else {
-                        Toast.makeText(this@Register,
+                        Toast.makeText(
+                            this@Register,
                             "Authentication failed.",
                             Toast.LENGTH_SHORT,
                         ).show()

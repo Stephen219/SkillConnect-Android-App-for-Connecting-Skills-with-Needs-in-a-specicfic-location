@@ -11,21 +11,18 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_dev_portfolio.Data.UserViewModel
-import com.example.mob_dev_portfolio.databinding.ActivityUserDetailsBinding
 
 
 class UserAdapter(
 
 
     private val userList: List<User>,
-    param: (Any) -> Unit, ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>()
-{
+    param: (Any) -> Unit,
+) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     var onItemClick: ((User) -> Unit?)? = null
     private lateinit var UserViewModel: UserViewModel
-
 
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,9 +35,9 @@ class UserAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card_layout, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.user_card_layout, parent, false)
         return UserViewHolder(view)
     }
 
@@ -87,37 +84,11 @@ class UserAdapter(
         holder.favButton.setOnClickListener {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
 
-    }}
+    }
+}
 
 
 

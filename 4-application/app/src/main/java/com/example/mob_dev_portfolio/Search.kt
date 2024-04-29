@@ -1,5 +1,5 @@
-
 package com.example.mob_dev_portfolio
+
 import User
 import addRecentSearch
 import android.annotation.SuppressLint
@@ -64,7 +64,8 @@ class Search : Fragment() {
 
 
                 if (!checkNetwork.isNetworkAvailable(requireContext())) {
-                    Toast.makeText( requireContext(),
+                    Toast.makeText(
+                        requireContext(),
                         "No internet covffvfvffvfvnnection. Please check your network and try again.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -109,8 +110,12 @@ class Search : Fragment() {
 
         return view
     }
-
-
+    /**
+     * This function performs the search operation
+     * @param city The city to search for
+     * @param profession / skills The profession to search for
+     * @return
+     */
     private fun performSearch(city: String, profession: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val users = mutableListOf<User>()
@@ -122,7 +127,6 @@ class Search : Fragment() {
                             users.add(user)
                         }
                     }
-
                     requireActivity().runOnUiThread {
                         searchScreen.visibility = View.GONE
                         if (users.isEmpty()) {
@@ -132,11 +136,12 @@ class Search : Fragment() {
                             noResultsFound.visibility = View.GONE
                             recyclerSearchResults.visibility = View.VISIBLE
                             val adapter = UserAdapter(users) { user ->
-                            val intent = Intent(requireContext(), UserDetailsActivity::class.java)
-                            intent.putExtra("user", user.toString())
-                            startActivity(intent)
-                        }
-                        recyclerSearchResults.adapter = adapter
+                                val intent =
+                                    Intent(requireContext(), UserDetailsActivity::class.java)
+                                intent.putExtra("user", user.toString())
+                                startActivity(intent)
+                            }
+                            recyclerSearchResults.adapter = adapter
                         }
                     }
                 }
@@ -146,9 +151,6 @@ class Search : Fragment() {
         }
 
     }
-
-
-
 }
 
 

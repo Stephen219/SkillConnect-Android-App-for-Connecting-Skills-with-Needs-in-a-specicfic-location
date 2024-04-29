@@ -13,9 +13,10 @@ import com.example.mob_dev_portfolio.databinding.ActivityUserDetailsBinding
 
 class UserDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserDetailsBinding
+
     // the 2 buttons
-    private lateinit var callButton:Button
-    private lateinit var emailButton:Button
+    private lateinit var callButton: Button
+    private lateinit var emailButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +41,15 @@ class UserDetailsActivity : AppCompatActivity() {
             websiteTextView.text = user2.website
             skillTextView.text = user2.skill
             locationTextView.text = user2.location
-        }
-        else {
+        } else {
             Intent(this@UserDetailsActivity, MainActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
-            Toast.makeText(this, "User is not found",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this, "User is not found",
+                Toast.LENGTH_SHORT
+            ).show()
             Log.e("UserDetailsActivity", "User is null")
         }
 
