@@ -118,6 +118,7 @@ class Home : Fragment() {
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.e("HomeFragment", "Firebase error: ${error.message}")
+                Toast.makeText(context, "Error fetching data", Toast.LENGTH_SHORT).show()
             }
         })
     }

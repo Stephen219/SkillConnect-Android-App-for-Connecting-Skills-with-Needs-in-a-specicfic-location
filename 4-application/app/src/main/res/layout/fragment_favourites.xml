@@ -5,10 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".Favourites">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/noResultsFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="this is your favourite info" />
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/noResultsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="your bookmarks will appear here"
+            android:textSize="18sp"
+            android:textColor="@color/blue" />
+
+        <ImageView
+            android:id="@+id/noResultsImage"
+            android:layout_width="350dp"
+            android:layout_height="407dp"
+            android:src="@drawable/bookmarked" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="16dp"
+        android:textColor="#fff"
+        tools:listitem="@layout/user_card_layout"
+        android:visibility="gone" />
+
 
 </FrameLayout>

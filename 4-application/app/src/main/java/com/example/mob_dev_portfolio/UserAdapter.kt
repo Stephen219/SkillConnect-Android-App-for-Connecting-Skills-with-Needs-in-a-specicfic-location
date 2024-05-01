@@ -4,6 +4,7 @@ import User
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,13 @@ class UserAdapter(
 
         }
         val user = userList[position]
+
+        if (getFavorites(holder.itemView.context).contains(user.id)) {
+            holder.favButton.setImageResource(R.drawable.baseline_favorite_24)
+        } else {
+            holder.favButton.setImageResource(R.drawable.baseline_favorite_242)
+        }
+
         holder.userName.text = user.name
         holder.location.text = user.location
         holder.skill.text = user.skill
@@ -66,27 +74,63 @@ class UserAdapter(
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, "Check out this user")
-            intent.putExtra((Intent.EXTRA_EMAIL), arrayOf("user@gfgghf.com"))
+            intent.putExtra((Intent.EXTRA_EMAIL), arrayOf(user.email))
             intent.putExtra(
                 Intent.EXTRA_TEXT,
                 "Check out this user: ${user.name} from ${user.location} with skill ${user.skill} and contact them at ${user.phone}"
             )
             holder.itemView.context.startActivity(Intent.createChooser(intent, "Share with"))
+            val updatedFavorites = getFavorites(holder.itemView.context)
+
+            println("Current favorites: ${updatedFavorites.joinToString(", ")}")
 
 
         }
 
-
-        val sharedPrefs =
-            holder.itemView.context.getSharedPreferences("FavouritesPrefs", Context.MODE_PRIVATE)
-
-        // TODO 2: HANDLE THE CLICK EVENT OF THE FAV BUTTON
         holder.favButton.setOnClickListener {
-
-
+            toggleFavorite(holder.itemView.context, user)
+            val updatedFavorites = getFavorites(holder.itemView.context)
+            if (updatedFavorites.contains(user.id)) {
+                holder.favButton.setImageResource(R.drawable.baseline_favorite_24)
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Added ${user.name} to Favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                holder.favButton.setImageResource(R.drawable.baseline_favorite_242)
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Removed ${user.name} from Favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            Log.d("Favorites", "Current favorites: ${updatedFavorites.joinToString(", ")}")
+            Log.d(
+                "debug",
+                "currently we are hereeebebfhjebfjhrewgfeifghewukfbwfjhekfhwbekkewflhbfewkih"
+            )
+            println("Current favorites: ${updatedFavorites.joinToString(", ")}")
         }
+    }
 
+    fun toggleFavorite(context: Context, user: User) {
+        val sharedPrefs = context.getSharedPreferences("FavouritesPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        val favorites =
+            sharedPrefs.getStringSet("favorites", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+        if (favorites.contains(user.id)) {
+            favorites.remove(user.id)
+        } else {
+            favorites.add(user.id)
+        }
+        editor.putStringSet("favorites", favorites)
+        editor.apply()
+    }
 
+    fun getFavorites(context: Context): Set<String> {
+        val sharedPrefs = context.getSharedPreferences("FavouritesPrefs", Context.MODE_PRIVATE)
+        return sharedPrefs.getStringSet("favorites", mutableSetOf()) ?: mutableSetOf()
     }
 }
 

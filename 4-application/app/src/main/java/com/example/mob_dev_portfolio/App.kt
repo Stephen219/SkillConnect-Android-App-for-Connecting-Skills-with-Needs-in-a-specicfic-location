@@ -21,8 +21,11 @@ class App : Application() {
         super.onCreate()
         val sharedPref = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
         val nightMode = sharedPref.getBoolean("night_mode", false)
+
         AppCompatDelegate.setDefaultNightMode(
             if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
+
+
     }
 }
