@@ -1,6 +1,6 @@
 package com.example.mob_dev_portfolio
 
-import User
+
 
 import android.content.Context
 import android.content.Intent
@@ -13,17 +13,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mob_dev_portfolio.Data.UserViewModel
+import com.example.mob_dev_portfolio.Data.User
 
 
 class UserAdapter(
+    private val context: Context,
 
 
     private val userList: List<User>,
     param: (Any) -> Unit,
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     var onItemClick: ((User) -> Unit?)? = null
-    private lateinit var UserViewModel: UserViewModel
+    val db by lazy { Userdb.getInstance(context) }
+
 
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -121,8 +123,15 @@ class UserAdapter(
             sharedPrefs.getStringSet("favorites", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
         if (favorites.contains(user.id)) {
             favorites.remove(user.id)
+            db!!.UserDao().deleteById(user.id)
+
         } else {
             favorites.add(user.id)
+            db!!.UserDao().insert(user)
+
+            Log.d("favoritesss",db!!.UserDao().getAllUsers().toString())
+            Toast.makeText(context, "User added to favoritescvbvuyyegfefgy", Toast.LENGTH_SHORT).show()
+
         }
         editor.putStringSet("favorites", favorites)
         editor.apply()

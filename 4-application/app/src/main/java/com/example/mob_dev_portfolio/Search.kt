@@ -1,6 +1,6 @@
 package com.example.mob_dev_portfolio
 
-import User
+
 import addRecentSearch
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_dev_portfolio.Data.RecentSearchAdapter
+import com.example.mob_dev_portfolio.Data.User
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import getRecentSearches
@@ -135,7 +136,14 @@ class Search : Fragment() {
                         } else {
                             noResultsFound.visibility = View.GONE
                             recyclerSearchResults.visibility = View.VISIBLE
-                            val adapter = UserAdapter(users) { user ->
+                            val adapter = UserAdapter(requireContext(),
+
+
+
+
+
+                                users
+                            ) { user ->
                                 val intent =
                                     Intent(requireContext(), UserDetailsActivity::class.java)
                                 intent.putExtra("user", user.toString())

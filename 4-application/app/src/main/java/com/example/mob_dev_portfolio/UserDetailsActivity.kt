@@ -1,6 +1,6 @@
 package com.example.mob_dev_portfolio
 
-import User
+
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.mob_dev_portfolio.Data.User
 import com.example.mob_dev_portfolio.databinding.ActivityUserDetailsBinding
 
 class UserDetailsActivity : AppCompatActivity() {

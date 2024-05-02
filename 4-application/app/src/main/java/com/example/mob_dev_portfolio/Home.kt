@@ -1,6 +1,6 @@
 package com.example.mob_dev_portfolio
 
-import User
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.mob_dev_portfolio.Data.UserViewModel
+import com.example.mob_dev_portfolio.Data.User
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -36,7 +37,7 @@ class Home : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var recyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
-    private lateinit var mUserViewModel: UserViewModel
+
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val counterToRecheckNetwork = 5
 
@@ -107,7 +108,8 @@ class Home : Fragment() {
 
 
 
-                    userAdapter = UserAdapter(filteredData) { user ->
+                    userAdapter = UserAdapter(requireContext(),
+                        filteredData) { user ->
                         val intent = Intent(requireContext(), UserDetailsActivity::class.java)
                         intent.putExtra("user", user.toString())
                         startActivity(intent)

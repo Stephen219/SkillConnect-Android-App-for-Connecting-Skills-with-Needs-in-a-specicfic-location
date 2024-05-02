@@ -1,4 +1,10 @@
+package com.example.mob_dev_portfolio.Data
+
+
 import android.os.Parcelable
+
+
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -9,13 +15,20 @@ import java.io.Serializable
 @Entity(tableName = "users")
 @Parcelize
 data class User(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
     val id: String = "",
+    @ColumnInfo(name = "name")
     val name: String,
+    @ColumnInfo(name = "email")
     val email: String,
+    @ColumnInfo(name = "website")
     val website: String,
+    @ColumnInfo(name = "phone")
     val phone: String,
+    @ColumnInfo(name = "skill")
     val skill: String,
+    @ColumnInfo(name = "location")
     val location: String?
 ) : Parcelable {
     constructor() : this("", "", "", "", "", "", "")

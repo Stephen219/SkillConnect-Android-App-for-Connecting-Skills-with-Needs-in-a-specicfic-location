@@ -1,5 +1,8 @@
 package com.example.mob_dev_portfolio
 
+import com.example.mob_dev_portfolio.Data.User;
+
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +16,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.mob_dev_portfolio.Data.UserViewModel
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.Update
+//import com.example.mob_dev_portfolio.Data.UserViewModel
 import com.example.mob_dev_portfolio.accountActivity.appSettingsActivity
 import com.example.mob_dev_portfolio.accountActivity.myAccountDetailsActitvity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,8 +41,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     private lateinit var bottomNavView: BottomNavigationView
-    private lateinit var mUserViewModel: UserViewModel
+    //private lateinit var mUserViewModel: UserViewModel
     private val counterToRecheckNetwork = 5
+    val db by lazy { Userdb.getInstance(this) }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,6 +107,18 @@ class MainActivity : AppCompatActivity() {
                 startActivity(it)
                 finish()
             }
+        }
+
+        val users = db!!.UserDao().getAllUsers()
+        for (user in users) {
+            Log.d("MainActivity", "onCreate: ${user}")
+        }
+
+
+        Log.d("MainActivity", db!!.UserDao().getAllUsers().toString())
+        val user = db!!.UserDao().getAllUsers()
+        user.forEach {
+            Log.d("MainActivity", "onCrdcuidbfcjebfvuyefgiwueeate: ${it}")
         }
         Log.d("the network status", checkNetwork.isNetworkAvailable(this).toString())
         Log.d("the network status", checkNetwork.isNetworkAvailable(this).toString())
@@ -162,3 +185,49 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 }
+
+@Dao
+interface UserDaos {
+    @Insert
+    fun insert(review: User)
+
+    @Update
+    fun update(review: User)
+
+    @Query("DELETE FROM users")
+    fun deleteAll()
+
+    @Query("DELETE FROM users WHERE id = :id")
+    fun deleteById(id: String)
+
+    @Query("Select * FROM users ORDER BY id ASC")
+    fun getAllUsers(): List<User>
+}
+
+
+
+
+@Database(entities = [User::class], version = 1, exportSchema = true)
+abstract class Userdb: RoomDatabase() {
+    abstract fun UserDao(): UserDaos
+    companion object {
+        private var INSTANCE: Userdb? = null
+        fun getInstance(context: Context): Userdb? {
+            if (INSTANCE == null) {
+                synchronized(Userdb::class) {
+                    INSTANCE = buildRoomDB(context)
+                }
+            }
+            return INSTANCE
+        }
+        private fun buildRoomDB(context: Context) =
+            Room.databaseBuilder(
+                context.applicationContext,
+                Userdb::class.java,
+                "Review database"
+            )
+                .allowMainThreadQueries()
+                .build()
+    }
+}
+
