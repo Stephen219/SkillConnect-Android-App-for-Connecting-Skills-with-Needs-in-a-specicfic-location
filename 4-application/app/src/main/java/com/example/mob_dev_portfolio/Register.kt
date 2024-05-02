@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +35,7 @@ class Register : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         editTextTextEmail = findViewById(R.id.email)
         editTextTextPassword = findViewById(R.id.password)
+        editTextTextPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
         button = findViewById(R.id.RegisterButton)
         progessBar = findViewById(R.id.progressBar)
         texttoLogin = findViewById(R.id.click_to_Login)
@@ -64,13 +66,13 @@ class Register : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
-            // password regex   a  digit and a letters
-            val passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$".toRegex()
-            if (!passwordRegex.matches(password)) {
-                editTextTextPassword.error = "Password must contain at least 1 letter and 1 digit"
-                return@setOnClickListener
-                progessBar.visibility = ProgressBar.INVISIBLE
-            }
+//            // password regex   a  digit and a letters
+//            val passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$".toRegex()
+//            if (!passwordRegex.matches(password)) {
+//                editTextTextPassword.error = "Password must contain at least 1 letter and 1 digit"
+//                return@setOnClickListener
+//                progessBar.visibility = ProgressBar.INVISIBLE
+//            }
 
             // from https://firebase.google.com/docs/auth/android/password-auth#kotlin+ktx_5
             auth.createUserWithEmailAndPassword(email, password)

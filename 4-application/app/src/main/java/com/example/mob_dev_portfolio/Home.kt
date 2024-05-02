@@ -94,7 +94,7 @@ class Home : Fragment() {
     val currentUserCity : String = ""
 
 
-    private fun fetchUserData() {
+     private fun fetchUserData() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
