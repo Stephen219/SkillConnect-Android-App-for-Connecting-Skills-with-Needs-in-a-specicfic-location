@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:visibility="visible"
+
         >
 
         <TextView
@@ -30,14 +32,16 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSearchResults"
+        android:id="@+id/recyclerFavs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:padding="16dp"
         android:textColor="#fff"
         tools:listitem="@layout/user_card_layout"
-        android:visibility="gone" />
+        android:visibility="gone"
+
+        />
 
 
 </FrameLayout>

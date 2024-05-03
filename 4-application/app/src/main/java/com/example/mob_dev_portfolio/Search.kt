@@ -138,10 +138,6 @@ class Search : Fragment() {
                             recyclerSearchResults.visibility = View.VISIBLE
                             val adapter = UserAdapter(requireContext(),
 
-
-
-
-
                                 users
                             ) { user ->
                                 val intent =
