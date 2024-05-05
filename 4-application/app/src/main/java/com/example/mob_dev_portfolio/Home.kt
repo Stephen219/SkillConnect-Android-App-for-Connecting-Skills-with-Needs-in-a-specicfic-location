@@ -1,7 +1,7 @@
 package com.example.mob_dev_portfolio
 
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,9 +19,6 @@ import com.example.mob_dev_portfolio.Data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * in this class fragment it is the home fragment and it is the launcher fragment
@@ -39,7 +36,6 @@ class Home : Fragment() {
     private lateinit var userAdapter: UserAdapter
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val counterToRecheckNetwork = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

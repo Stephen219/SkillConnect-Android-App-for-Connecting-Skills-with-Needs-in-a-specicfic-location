@@ -10,11 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mob_dev_portfolio.Data.User
 
 
 class Favourites : Fragment() {
-    val db by lazy { Userdb.getInstance(requireContext()) }
+    private val  db by lazy { Userdb.getInstance(requireContext()) }
     private lateinit var userAdapter: UserAdapter
     private lateinit var recyclerView: RecyclerView
 
