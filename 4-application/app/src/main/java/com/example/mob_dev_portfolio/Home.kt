@@ -98,6 +98,10 @@ class Home : Fragment() {
      private fun fetchUserData() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                if (!isAdded) {
+
+                    return
+                }
                 if (snapshot.exists()) {
                     var userData = snapshot.children.mapNotNull { it.getValue(User::class.java) }
                     val sameCityUsers = userData.filter { it.location == currentUserCity }
@@ -119,6 +123,12 @@ class Home : Fragment() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
+
+
+                if (isAdded) {
+                    Log.e("HomeFragment", "Firebase error: ${error.message}")
+                    Toast.makeText(requireContext(), "Error fetching data", Toast.LENGTH_SHORT).show()
+                }
                 Log.e("HomeFragment", "Firebase error: ${error.message}")
                 Toast.makeText(context, "Error fetching data", Toast.LENGTH_SHORT).show()
             }
