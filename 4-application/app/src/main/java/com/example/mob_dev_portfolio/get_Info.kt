@@ -11,6 +11,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 
+/**
+ * This class is responsible for getting user information and saving it to the Firebase database.
+ * It is called when the user clicks the "Save" button on the "Get Info" screen.
+ * The user information includes name, website, phone number, email, skills, and location.
+ * The information is saved to the Firebase database under the "users" node.
+ * The user is then redirected to the main activity screen.
+ * If any of the fields are empty, a toast message is displayed asking the user to fill all fields.
+ * The user's ID is also saved to the database.
+ */
+
 class get_Info : AppCompatActivity() {
     private lateinit var saveButton: Button
 
@@ -27,6 +37,24 @@ class get_Info : AppCompatActivity() {
             val editEmail = findViewById<EditText>(R.id.edit_email)
             val editSkill = findViewById<EditText>(R.id.edit_skills)
             val editLocation = findViewById<EditText>(R.id.edit_location)
+
+            val fields = arrayOf(editName, editWeb, editPhone, editEmail, editSkill, editLocation)
+            for (field in fields) {
+                if (field.text.isEmpty()) {
+                    field.error = "This field is required"
+                    Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            if (!checkNetwork.isNetworkAvailable(this@get_Info)) {
+                Toast.makeText(this@get_Info, "No internet Connection", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+
+
 
             // Validation
             if (editName.text.isEmpty() || editWeb.text.isEmpty() || editPhone.text.isEmpty() ||

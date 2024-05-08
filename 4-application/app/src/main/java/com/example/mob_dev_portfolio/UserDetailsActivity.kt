@@ -146,11 +146,12 @@ class UserDetailsActivity : AppCompatActivity() {
         val message =
             "You have given the user a $rating star rating. Would you like to review them?"
         val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Review this user User")
+            .setTitle("Review this user")
             .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
                 Toast.makeText(this, "Redirecting to review page", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
+                //TODO: redirect to the review page
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()

@@ -49,7 +49,7 @@ class Register : AppCompatActivity() {
         button.setOnClickListener {
 
             if (!checkNetwork.isNetworkAvailable(this@Register)) {
-                Toast.makeText(this@Register, "No Internet Connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Register, "No internet Connection", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
                 progessBar.visibility = ProgressBar.INVISIBLE
             }
@@ -66,13 +66,7 @@ class Register : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
-//            // password regex   a  digit and a letters
-//            val passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$".toRegex()
-//            if (!passwordRegex.matches(password)) {
-//                editTextTextPassword.error = "Password must contain at least 1 letter and 1 digit"
-//                return@setOnClickListener
-//                progessBar.visibility = ProgressBar.INVISIBLE
-//            }
+
 
             // from https://firebase.google.com/docs/auth/android/password-auth#kotlin+ktx_5
             auth.createUserWithEmailAndPassword(email, password)
