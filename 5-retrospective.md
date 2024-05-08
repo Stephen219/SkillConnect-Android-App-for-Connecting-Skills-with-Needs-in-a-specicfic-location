@@ -20,7 +20,7 @@ mobile applications.
 If I had more time, I would extend the app's capabilities by implementing in-app messaging and
 enabling push notifications, enhancing communication and user engagement. Additionally, I would
 focus on completing the feature for user reviews to provide more detailed feedback on service
-providers.
+providers. testing the apps using junits and other testing tools would also be a priority since its a critical part of software development.
 
 To sum up this experience not only honed my technical skills but also emphasized the importance diversification in software development. If I were to develop a similar app in the
 future, I would consider spending more time on initial planning and design to minimize later

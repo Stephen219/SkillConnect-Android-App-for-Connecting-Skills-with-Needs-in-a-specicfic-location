@@ -179,12 +179,20 @@ class MainActivity : AppCompatActivity() {
         ReplaceFragment(Home())
     }
 
+    /**
+     * ReplaceFragment() function is used to replace the fragment in the fragment container
+     * with the fragment passed as a parameter
+     */
+
     private fun ReplaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
 }
+
+
+// Room Database
 
 @Dao
 interface UserDaos {
