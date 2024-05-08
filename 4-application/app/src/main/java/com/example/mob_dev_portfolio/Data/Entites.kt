@@ -2,16 +2,18 @@ package com.example.mob_dev_portfolio.Data
 
 
 import android.os.Parcelable
-
-
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
+import kotlinx.parcelize.Parcelize
+
+/**
+ * this is the entity class for the user table and any other table that will be created
+ * it is a data class that holds the user data
+ *
+ */
 @Entity(tableName = "users")
 @Parcelize
 data class User(
@@ -34,7 +36,11 @@ data class User(
     constructor() : this("", "", "", "", "", "", "")
 
 }
-
+/**
+ * this is the entity class for the skill table and any other table that will be created
+ * it is a data class that holds the skill data   to be used
+ *
+ */
 
 @Entity(tableName = "skills")
 data class Skill(
@@ -42,6 +48,11 @@ data class Skill(
     val id: Long = 0,
     val skillName: String
 )
+
+/**
+ * this is the entity class for the user_skill_cross_ref table and any other table that will be created
+ * ** to be used
+ */
 
 @Entity(
     tableName = "user_skill_cross_ref",

@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.account -> {
-                    ReplaceFragment(Account())
+                    ReplaceFragment(Notification())
                     true
                 }
 

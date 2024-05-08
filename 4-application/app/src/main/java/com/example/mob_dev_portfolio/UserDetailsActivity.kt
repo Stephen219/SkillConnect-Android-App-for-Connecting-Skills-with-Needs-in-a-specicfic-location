@@ -2,13 +2,11 @@ package com.example.mob_dev_portfolio
 
 
 import android.animation.ObjectAnimator
-
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -17,15 +15,19 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.FrameLayout
-
 import android.widget.RatingBar
-
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.example.mob_dev_portfolio.Data.User
 import com.example.mob_dev_portfolio.databinding.ActivityUserDetailsBinding
+
+/**
+ * This activity displays the details of a user
+ * The user can call the user, email the user, block the user, and report the user  // report and block not done as per say
+ * The user can also see the rating of the user though hardcoded
+ */
 
 
 class UserDetailsActivity : AppCompatActivity() {
@@ -42,6 +44,10 @@ class UserDetailsActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * This function is called when the user clicks on the menu item
+     * shows a flash after the actioon
+     */
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -54,22 +60,15 @@ class UserDetailsActivity : AppCompatActivity() {
 
             R.id.menu_report -> {
                 showFlashMessage("The user is blocked and reported.")
-
-
                 return true
             }
 
             else -> {
                 Toast.makeText(this, "you clicked on something else", Toast.LENGTH_SHORT).show()
-
-
             }
         }
         return super.onOptionsItemSelected(item)
-
-
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,13 +83,17 @@ class UserDetailsActivity : AppCompatActivity() {
         val locationTextView: TextView = findViewById(R.id.location_text)
         val ratingBar = findViewById<RatingBar>(R.id.rbStarReview)
 
+        // toolbar setup
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
         setSupportActionBar(toolbar)
 
+        // toolbar back button
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        // rating bar setup and listener to prompt the user to review the user   now here is where i will open the review activity
 
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             showReviewDialog(rating)
@@ -129,6 +132,7 @@ class UserDetailsActivity : AppCompatActivity() {
             intent.data = Uri.parse("tel:${phoneTextView.text}")
             startActivity(intent)
         }
+        // email button setup and listener to send an email to the user
 
         emailButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
@@ -141,6 +145,13 @@ class UserDetailsActivity : AppCompatActivity() {
 
     }
 
+
+    /**
+     * This function shows a dialog to the user to review the user
+     * it shows the rating given by the user
+     * it shows a message to the user to review the user
+     *
+     */
 
     private fun showReviewDialog(rating: Float) {
         val message =
@@ -160,6 +171,13 @@ class UserDetailsActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+
+    /**
+     * in android , a flash is a good way to show a message to the user, an alternative to a toast
+     * this function shows a flash message to the user
+     * it creates a flash message with the given message
+     * it shows the flash message for 2.5 seconds
+     */
 
     private fun showFlashMessage(message: String) {
         val rootLayout =

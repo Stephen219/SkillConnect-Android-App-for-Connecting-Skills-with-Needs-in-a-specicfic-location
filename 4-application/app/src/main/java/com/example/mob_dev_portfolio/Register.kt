@@ -4,12 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class Register : AppCompatActivity() {
     private lateinit var editTextTextEmail: TextInputEditText
@@ -30,12 +34,14 @@ class Register : AppCompatActivity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         editTextTextEmail = findViewById(R.id.email)
         editTextTextPassword = findViewById(R.id.password)
-        editTextTextPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+        editTextTextPassword.inputType =
+            InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
         button = findViewById(R.id.RegisterButton)
         progessBar = findViewById(R.id.progressBar)
         texttoLogin = findViewById(R.id.click_to_Login)
@@ -89,17 +95,57 @@ class Register : AppCompatActivity() {
                         progessBar.visibility = ProgressBar.GONE
 //                        updateUI(user)
                     } else {
-                        Toast.makeText(
-                            this@Register,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        /**
+                         * exception handling for the different exceptions that can be thrown when creating a user
+                         */
+                        val exception = task.exception
+                        when (exception) {
+                            is FirebaseAuthUserCollisionException -> {
+                                Toast.makeText(
+                                    this@Register,
+                                    "The email address is already in use. choose another email address",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                progessBar.visibility = ProgressBar.GONE
+                                editTextTextEmail.error = "The email address is already in use"
+                            }
 
-                        progessBar.visibility = ProgressBar.GONE
-//                        updateUI(null)
+                            is FirebaseAuthWeakPasswordException -> {
+                                Toast.makeText(
+                                    this@Register,
+                                    "The password is too weak. Please choose a stronger password",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                progessBar.visibility = ProgressBar.INVISIBLE
+                                editTextTextPassword.error = "The password is too weak"
+                            }
+
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                Toast.makeText(
+                                    this@Register,
+                                    "The email address is badly formatted",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                progessBar.visibility = ProgressBar.INVISIBLE
+                                editTextTextEmail.error = "The email address is not good"
+
+                            }
+
+                            else -> {
+                                Toast.makeText(
+                                    this@Register,
+                                    "Authentication failed.",
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                                Log.e("Register", "createUserWithEmail:failure", exception)
+
+                                progessBar.visibility = ProgressBar.GONE
+                            }
+
+
+                        }
                     }
                 }
-
         }
     }
 }

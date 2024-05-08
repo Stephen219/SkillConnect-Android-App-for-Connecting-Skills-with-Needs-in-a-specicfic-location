@@ -15,11 +15,12 @@ below.__
 - the app should request permission to access the user's location to provide location-based results.
   however, for now we will have to make the user input a location
 - Users can view a feed of people with skills. this will be the main page of the app displayed in a
-  card containing location skill, name and share and favourite buttons. this should be in a
-  recyclerview
+  card containing location skill, name, rate bar and share and favourite buttons. this should be in a
+  recyclerview. the recyclerview will have a swipe to refresh feature.
 - Users can click on each individual to see detailed skills and contact details
 - Users can search for services based on location preferences and skills and receive correct
   results.
+- 
 - user can edit their profile and view it
 - users can view all their recent searches in a recyclerview below the search inputs
 - Users can add a service provider to their favourites list by clicking the favourite button on the

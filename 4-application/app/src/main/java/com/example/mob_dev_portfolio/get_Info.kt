@@ -24,6 +24,16 @@ import com.google.firebase.database.FirebaseDatabase
 class get_Info : AppCompatActivity() {
     private lateinit var saveButton: Button
 
+    /**
+     * this is the activity that comes after registering the user
+     * This function is called when the activity is created.
+     * It sets up the layout and functionality of the "Get Info" screen.
+     * It checks if the user is connected to the internet before saving the user information to the database.
+     * If the user is not connected to the internet, a toast message is displayed.
+     * If the user is connected to the internet, the user information is saved to the database.
+     * The user is then redirected to the main activity screen.
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_get_info)
@@ -37,6 +47,7 @@ class get_Info : AppCompatActivity() {
             val editEmail = findViewById<EditText>(R.id.edit_email)
             val editSkill = findViewById<EditText>(R.id.edit_skills)
             val editLocation = findViewById<EditText>(R.id.edit_location)
+            // Check if all fields are filled
 
             val fields = arrayOf(editName, editWeb, editPhone, editEmail, editSkill, editLocation)
             for (field in fields) {
@@ -52,16 +63,12 @@ class get_Info : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
-
-
-
             // Validation
-            if (editName.text.isEmpty() || editWeb.text.isEmpty() || editPhone.text.isEmpty() ||
-                editEmail.text.isEmpty() || editSkill.text.isEmpty() || editLocation.text.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+//            if (editName.text.isEmpty() || editWeb.text.isEmpty() || editPhone.text.isEmpty() ||
+//                editEmail.text.isEmpty() || editSkill.text.isEmpty() || editLocation.text.isEmpty()) {
+//                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
 
             val name = editName.text.toString()
             val web = editWeb.text.toString()
@@ -73,20 +80,29 @@ class get_Info : AppCompatActivity() {
             val usersRef = database.getReference("users")
             val userId = usersRef.push().key
 
-
+            /**
+             * This function gets the current Firebase user.
+             * It returns the current user if they are logged in, otherwise it returns null.
+             */
             fun getCurrentFirebaseUser(): FirebaseUser? {
                 val auth = FirebaseAuth.getInstance()
                 return auth.currentUser
             }
+
+            /**
+             * This function gets the current user ID.
+             * It returns the user ID if the user is logged in, otherwise it returns null.
+             */
             fun getCurrentUserId(): String? {
                 val currentUser = getCurrentFirebaseUser()
                 return currentUser?.uid
             }
-
+            // here we are saving the user information to the database
+            // we are saving the user information under the "users" node of the firebase database
 
             userId?.let {
                 val userMap = hashMapOf(
-                    "id" to getCurrentUserId(),
+                    "id" to getCurrentUserId(), // get the current user id save it as the id
                     "name" to name,
                     "website" to web,
                     "phone" to phone,

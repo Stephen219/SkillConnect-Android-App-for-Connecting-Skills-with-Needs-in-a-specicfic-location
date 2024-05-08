@@ -7,9 +7,8 @@ Student ID: `22067364`
 _Complete the information above and then write your 300-word API description here.__
 
 The UI is designed with mostly ConstraintLayout as the foundational
-element,
-offering flexibility in accommodating various screen sizes and orientations. To efficiently display
-lists of service providers, I use RecyclerView with customized adapters and layout managers.
+element, offering flexibility in accommodating various screen sizes and orientations. To efficiently display
+lists of service providers, I use RecyclerView with customized adapters and layout managers. the recyclerview has a swipe to refresh feature to allow the user to refresh the list of service providers.
 This setup ensures smooth scrolling and a consistent user experience even with large datasets.
 ScrollViews are used where longer content must be displayed, allowing users to navigate
 effortlessly through extended information. rating bar was also under implemented to allow the user to rate the service provider.

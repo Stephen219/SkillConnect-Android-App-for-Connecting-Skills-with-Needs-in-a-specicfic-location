@@ -44,6 +44,18 @@ object checkNetwork {
         }
     }
 
+
+    /**
+     * Rechecks the network connection after a delay.
+     *
+     * This function uses a Handler to recheck the network connection after a
+     * specified delay. If the device still doesn't have an active internet
+     * connection, a toast message is displayed to the user.
+     *
+     * @param context The application context.
+     * @param delayMillis The delay in milliseconds before rechecking the network connection.
+     */
+
     fun recheckNetworkAfterDelay(context: Context, delayMillis: Long = 4000) {
         val handler = Handler(Looper.getMainLooper())
         val runnable = Runnable {

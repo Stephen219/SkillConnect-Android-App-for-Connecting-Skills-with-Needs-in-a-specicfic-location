@@ -3,11 +3,9 @@ package com.example.mob_dev_portfolio
 
 import addRecentSearch
 import android.annotation.SuppressLint
-import android.content.Context
+
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
+
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -32,6 +30,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+/**
+ * This fragment allows the user to search for other users based on their location and profession
+ * The user can search for other users based on their location and profession
+ * The user can also view recent searches
+ * The user can click on a user to view their details
+ * if the search returns no results, a message is displayed to the user with an svg illustration rather than a blank screen
+ */
+
 class Search : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var searchScreen: RelativeLayout
@@ -51,6 +57,7 @@ class Search : Fragment() {
         val editTextProfession = view.findViewById<EditText>(R.id.editTextProfession)
         val buttonSearch = view.findViewById<Button>(R.id.buttonSearch)
         val recyclerRecentSearches = view.findViewById<RecyclerView>(R.id.recyclerRecentSearches)
+        // here i am getting the recycler view for the search results
         recyclerSearchResults = view.findViewById<RecyclerView>(R.id.recyclerSearchResults)
         searchScreen = view.findViewById(R.id.relativeLayoutSearch)
         noResultsFound = view.findViewById(R.id.noResultsFound)
@@ -61,9 +68,10 @@ class Search : Fragment() {
             val city = editTextCity.text.toString().trim()
             val profession = editTextProfession.text.toString().trim()
 
-            if (city.isNotEmpty() && profession.isNotEmpty()) {
+            // check if the city and profession fields are not empty validate the city and profession fields
 
-
+            if (city.isNotEmpty() || profession.isNotEmpty()) {
+                // check if the user is connected to the internet before performing the search to avoid unnecessary delays
                 if (!checkNetwork.isNetworkAvailable(requireContext())) {
                     Toast.makeText(
                         requireContext(),
@@ -73,6 +81,7 @@ class Search : Fragment() {
                     return@setOnClickListener
 
                 }
+                // save the search term to the database
 
                 val searchTerm = "$city, $profession"
 
@@ -95,6 +104,11 @@ class Search : Fragment() {
             }
         }
 
+
+        /**
+         * This function gets the recent searches from the database and displays them in a recycler view
+         * The user can click on a recent search to populate the search fields with the search term
+         */
         getRecentSearches(requireContext())
             .onEach { recentSearches ->
                 val recentSearchList = recentSearches.toList().reversed()
@@ -150,6 +164,11 @@ class Search : Fragment() {
                     }
                 }
                 .addOnFailureListener { exception ->
+                    Toast.makeText(
+                        requireContext(),
+                        "An error occurred. Please try again later.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     Log.e("SearchFragment", "Error fetching rhe data: ${exception.message}")
                 }
         }

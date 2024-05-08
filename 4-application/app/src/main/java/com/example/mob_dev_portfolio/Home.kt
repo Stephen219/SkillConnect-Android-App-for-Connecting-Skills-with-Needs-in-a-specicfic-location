@@ -90,7 +90,10 @@ class Home : Fragment() {
     val authenticatedUserId = getCurrentUserId()
     val currentUserCity : String = ""
 
-
+    /**
+     * fetchUserData() function is used to fetch user data from the Firebase Realtime Database
+     * qnd display the data in a recycler view
+     */
      private fun fetchUserData() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -118,6 +121,7 @@ class Home : Fragment() {
 
                 }
             }
+            // if there is an error fetching data from the database, a toast message will be displayed
             override fun onCancelled(error: DatabaseError) {
 
 

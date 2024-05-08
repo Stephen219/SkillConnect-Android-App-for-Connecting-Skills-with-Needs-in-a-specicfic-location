@@ -7,6 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_dev_portfolio.R
 
+
+/**
+ * This class is the adapter for the recycler view that displays the recent searches
+ * it takes in a list of recent searches and displays them in the recycler view
+ * it also handles the click event of the recent search item
+ */
+
 class RecentSearchAdapter(
     private val recentSearchList: List<String>,
     private val onItemClick: (String) -> Unit // Click handler

@@ -11,6 +11,9 @@ import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
 
 
@@ -34,7 +37,6 @@ class Login : AppCompatActivity() {
             }
         }
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +81,7 @@ class Login : AppCompatActivity() {
                     Toast.makeText(this@Login, "Login Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
-            // from https://firebase.google.com/docs/auth/android/password-auth#kotlin+ktx_5
+            // from https://firebase.google.com/docs/auth/android/password-auth#kotlin+ktx_5 - validations
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -87,29 +89,45 @@ class Login : AppCompatActivity() {
                         Log.d(TAG, "signInWithEmail:success")
                         val user = auth.currentUser
                         updateUI(user)
-
                         Intent(this@Login, MainActivity::class.java).also {
                             startActivity(it)
                             finish()
                         }
+                    }
+                    else {
+                        // here i am handling any exception that might occur in login and n otifying the user / logging the error
+                        val exception = task.exception
+                        when (exception) {
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                Toast.makeText(
+                                    this@Login,
+                                    "The email address is badly formatted",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                progessBar.visibility = ProgressBar.INVISIBLE
+                                editTextTextEmail.error = "The email address is not good"
+
+                            }
+
+                            else -> {
+                                Toast.makeText(
+                                    this@Login,
+                                    "Authentication failed.",
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                                Log.e("Register", "createUserWithEmail:failure", exception)
+
+                                progessBar.visibility = ProgressBar.GONE
+                            }
 
 
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        updateUI(null)
+                        }
                     }
 
                 }
 
 
         }
-
 
 
     }
